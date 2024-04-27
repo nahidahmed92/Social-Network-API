@@ -1,5 +1,6 @@
 // DEPENDENCIES ======================================
 const express = require('express');
+const db = require('./config/connection.js');
 
 // DATA ==============================================
 
@@ -14,6 +15,8 @@ app.use(express.urlencoded({ extended: true }));
 // ROUTE =============================================
 
 // INITIALIZATION ====================================
-app.listen(PORT, () => {
-  console.log(`Now listening to http://localhost:${PORT}`);
+db.once('once', () => {
+  app.listen(PORT, () => {
+    console.log(`Now listening to http://localhost:${PORT}`);
+  });
 });

@@ -1,5 +1,6 @@
 // DEPENDENCIES ======================================
 const express = require('express');
+const router = require('./routes');
 const db = require('./config/connection.js');
 
 // DATA ==============================================
@@ -13,6 +14,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // ROUTE =============================================
+app.use('/', router);
 
 // INITIALIZATION ====================================
 db.once('once', () => {

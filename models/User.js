@@ -7,6 +7,24 @@ const userSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  email: {
+    type: String,
+    match: /^([a-z0-9_\.-]+)@([\da-z\.-]+)\.([a-z\.]{2,6})$/,
+    unique: true,
+    required: true,
+  },
+  thoughts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Thoughts',
+    },
+  ],
+  friends: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User',
+    },
+  ],
 });
 
 const User = mongoose.model('user', userSchema);

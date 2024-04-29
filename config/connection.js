@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
+const { connect, connection } = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/socialNetworkAPI');
+connect('mongodb://127.0.0.1:27017/socialNetworkAPI');
 
-module.exports = mongoose.connection;
+module.exports = connection;

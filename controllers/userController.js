@@ -64,4 +64,15 @@ module.exports = {
       res.status(500).json(error);
     }
   },
+  findAllFriends: async (req, res) => {
+    try {
+      // select a user to find their friends
+      const user = await User.findOne({ _id: req.params.id });
+      // find all friends of the selected user
+      const allFriends = await User.find({ _id: { $in: user.friends } });
+      res.json(allFriends);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
 };

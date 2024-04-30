@@ -44,6 +44,7 @@ module.exports = {
       if (!updatedUser) {
         return res.status(404).json({ message: 'No user with that ID' });
       }
+
       res.json(updatedUser);
     } catch (error) {
       res.status(500).json(error);
@@ -52,7 +53,6 @@ module.exports = {
   deleteUser: async (req, res) => {
     try {
       const deletedUser = await User.findOneAndDelete({ _id: req.params.id });
-      // console.log('deletedUser: ', deletedUser);
 
       if (!deletedUser) {
         return res.status(404).json({ message: 'No user with that ID' });

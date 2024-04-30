@@ -17,7 +17,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/', router);
 
 // INITIALIZATION ====================================
-db.once('once', () => {
+db.once('open', () => {
   app.listen(PORT, () => {
     console.log(`Now listening to http://localhost:${PORT}`);
   });

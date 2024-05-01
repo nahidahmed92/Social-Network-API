@@ -60,4 +60,30 @@ module.exports = {
       res.status(500).json(error);
     }
   },
+  reactionsUpdate: async (req, res) => {
+    try {
+      let updatedReaction;
+      if (req.method === 'POST') {
+        updatedReaction = await Thought.findOneAndUpdate(
+          { _id: req.params.id },
+          { $addToSet: { reactions: req.body } },
+          { runValidators: true, new: true }
+        );
+      } else if (req.method === 'DELETE') {
+        updatedReaction = await Thought.findOneAndUpdate(
+          { _id: req.params.id },
+          { $pull: { reactions: req.body } },
+          { runValidators: true, new: true }
+        );
+      }
+
+      if (!updatedReaction) {
+        return res.status(404).json({ message: 'No thought with that ID' });
+      }
+
+      res.json(updatedReaction);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
 };

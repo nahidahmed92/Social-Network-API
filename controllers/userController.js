@@ -64,4 +64,50 @@ module.exports = {
       res.status(500).json(error);
     }
   },
+  findAllFriends: async (req, res) => {
+    try {
+      // select a user to find their friends
+      const user = await User.findOne({ _id: req.params.id });
+      // find all friends of the selected user
+      const allFriends = await User.find({ _id: { $in: user.friends } });
+      res.json(allFriends);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
+  friendsUpdate: async (req, res) => {
+    try {
+      const { username } = req.body;
+      const friend = await User.findOne({ username });
+
+      if (!friend) {
+        return res.status(404).json({ message: 'Username not found' });
+      }
+
+      let updatedUser;
+      if (req.method === 'POST') {
+        // add friend
+        updatedUser = await User.findOneAndUpdate(
+          { _id: req.params.id },
+          { $addToSet: { friends: friend._id } },
+          { new: true }
+        );
+      } else if (req.method === 'DELETE') {
+        // delete friend
+        updatedUser = await User.findOneAndUpdate(
+          { _id: req.params.id },
+          { $pull: { friends: friend._id } },
+          { new: true }
+        );
+      }
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'No user with that ID' });
+      }
+
+      res.json(updatedUser);
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  },
 };
